@@ -1,0 +1,31 @@
+package ThreadPool;
+
+//        1.使用线程池的工厂类Excutors里边提供的静态方法newFixedThreadPool生成一个指定数量的线程池
+//        2.创建一个类，实现Runnable接口，重写run方法，设置线程任务
+//        3.调用ExcutorService中的方法submit，传递线程任务（实现类），开启线程，执行run方法
+//        4.调用ExcutorService中的方法shutdown销毁线程池（不建议实行）
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
+public class DemoThreadPool01 {
+    public static void main(String[] args) {
+        //1.使用线程池的工厂类Excutors里边提供的静态方法newFixedThreadPool生成一个指定数量的线程池
+        ExecutorService es=Executors.newFixedThreadPool(2);
+        //3.调用ExcutorService中的方法submit，传递线程任务（实现类），开启线程，执行run方法
+        es.submit(new RunnableImpl());
+        es.submit(new RunnableImpl());
+        es.submit(new RunnableImpl());
+        es.submit(new RunnableImpl());
+    }
+}
+
+
+package ThreadPool;
+
+public class RunnableImpl implements Runnable {
+    @Override
+    //2.创建一个类，实现Runnable接口，重写run方法，设置线程任务
+    public void run() {
+        System.out.println(Thread.currentThread().getName()+"开始行动");
+    }
+}
