@@ -1,0 +1,39 @@
+package Thread;
+
+import java.util.Random;
+/**
+ * 1、继承Thread父类实现多线程
+ */
+public class ThreadSample1 {
+    public static void main(String[] args) {
+        /**
+         * 此时共有五个线程在同时运行
+         * 除了三个奔跑者，还有一个是主线程(也称守护线程，该线程结束程序也就结束）
+         * 另外一个是JVM分配的用于回收线程的单独线程
+         */
+        Runner1 r1=new Runner1();
+        r1.setName("张三");
+        Runner1 r2=new Runner1();
+        r2.setName("李四");
+        Runner1 r3=new Runner1();
+        r3.setName("王五");
+        r1.start();
+        r2.start();
+        r3.start();
+    }
+}
+
+    class Runner1 extends Thread{
+        @Override
+        public void run(){
+            int speed=new Random().nextInt(10)+1;
+            for(int i=1;i<=100;i++){
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                System.out.println(this.getName()+"已前进"+i*speed+"米");
+            }
+        }
+    }
