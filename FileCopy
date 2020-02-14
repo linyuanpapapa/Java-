@@ -1,0 +1,31 @@
+import java.io.*;
+
+public class FileCopy {
+    public static void main(String[] args) {
+        File source=new File("E:\\BaiduNetdiskDownload\\59.oracle.zip");
+        File target=new File("E:\\Download\\59.oracle.zip");
+        InputStream input=null;
+        OutputStream output=null;
+        try {
+            input=new FileInputStream(source);
+            output=new FileOutputStream(target);
+            byte[] bytes=new byte[1024];
+            int byteRead;
+            while((byteRead=input.read(bytes))!=-1){
+                output.write(bytes,0,byteRead);
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }finally {
+            try {
+                input.close();
+                output.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+    }
+}
