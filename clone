@@ -1,0 +1,52 @@
+package clone;
+
+import java.io.*;
+//浅复制：只对对象及变量值进行复制，引用对象地址不变
+//深复制：不近对对象及变量值进行复制，引用对象也进行复制
+public class Dancer implements Cloneable,Serializable{
+    private String name;
+
+    private Dancer partner;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Dancer getPartner() {
+        return partner;
+    }
+
+    public void setPartner(Dancer partner) {
+        this.partner = partner;
+    }
+
+    public Dancer deepClone() throws IOException, ClassNotFoundException {
+        //使用序列化和反序列化实现深层复制
+        ByteArrayOutputStream bos=new ByteArrayOutputStream();
+        ObjectOutputStream oos=new ObjectOutputStream(bos);
+        oos.writeObject(this);
+
+        ByteArrayInputStream bis=new ByteArrayInputStream(bos.toByteArray());
+        ObjectInputStream ois=new ObjectInputStream(bis);
+        return (Dancer)ois.readObject();
+    }
+
+    public static void main(String[] args) throws CloneNotSupportedException, IOException, ClassNotFoundException {
+        Dancer d1=new Dancer();
+        d1.setName("刘昊然");
+        Dancer d2=new Dancer();
+        d2.setName("朱梓璟");
+        d1.setPartner(d2);
+        System.out.println("Partner:"+d2.hashCode());
+        //浅复制
+        Dancer shallow=(Dancer)d1.clone();
+        System.out.println("浅复制："+shallow.partner.hashCode());
+        //深复制
+        Dancer deep=d1.deepClone();
+        System.out.println("深复制："+deep.partner.hashCode());
+    }
+}
